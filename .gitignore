@@ -146,12 +146,12 @@ dmypy.json
 .mypy_cache
 
 # папки со статикой и медиа
-media/
+media/*
+!media/test/
+!media/test/**
 static/
 
 # Мои файлы для игнора
 test.txt
 pyproject.toml
-venv
 venv/
-../venv
