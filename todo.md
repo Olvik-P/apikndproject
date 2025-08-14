@@ -1,5 +1,7 @@
 + API server  ()
+"""
 • Django Users (Как работает базовая модель и как переопределять ее)
+"""
 • DRF (Viewsets, Generics, Mixin) (Как работают viewsets и generics)
 • DRF (Routing) (Как работает Router в DRF)
 • DRF (Permissions) 
