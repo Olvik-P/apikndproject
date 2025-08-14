@@ -16,11 +16,20 @@ from api.utils.parser_erknm_headless import parse_knm_data
 
 # Функции для преобразования дат
 def parse_datetime(dt_str):
-    return datetime.strptime(dt_str, '%d.%m.%Y %H:%M')
-
+    if dt_str == 'Не найдено' or not dt_str.strip():
+        return None
+    try:
+        return datetime.strptime(dt_str, '%d.%m.%Y %H:%M')
+    except ValueError:
+        return None
 
 def parse_date(date_str):
-    return datetime.strptime(date_str, '%d.%m.%Y').date()
+    if date_str == 'Не найдено' or not date_str.strip():
+        return None
+    try:
+        return datetime.strptime(date_str, '%d.%m.%Y').date()
+    except ValueError:
+        return None
 
 
 class SimpleFileUploadView(APIView):
@@ -86,7 +95,7 @@ class SimpleFileUploadView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(
-                {"error": f"Ошибка обработки данных: {str(e)}"},
+                {"error": f"{SimpleFileUploadView.__name__}: Ошибка обработки данных: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

@@ -1,10 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
+Users = get_user_model()
 
 class Knd(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    # inspector = models.ForeignKey(
-    #     Users, related_name='cats', on_delete=models.CASCADE)
+    inspector = models.ForeignKey(
+        Users, 
+        related_name='knd_inspector', 
+        on_delete=models.CASCADE, 
+        null=True, 
+        verbose_name='Инспектор'
+    )
     url_knd = models.URLField(
         'Ссылка на проверку',
         blank=True,
