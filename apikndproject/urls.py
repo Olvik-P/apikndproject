@@ -15,7 +15,7 @@ urlpatterns = [
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Cats API",
+        title="KND API",
         default_version='v1',
         description="Документация для приложения",
         contact=openapi.Contact(email="olpon00@mail.ru"),
