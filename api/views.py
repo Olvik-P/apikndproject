@@ -15,18 +15,7 @@ from knd.models import Knd, Users
 from api.utils.one_qrcod_in_url_decode import decode_qr_code
 from api.utils.parser_erknm_headless import parse_knm_data
 
-logger = logging.getLogger('__name__')
-logger.setLevel(logging.DEBUG)
-
-stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter(
-    '%(asctime)s [%(levelname)s] %(message)s', datefmt='%d-%m-%Y %H:%M:%S'
-)
-stream_handler.setFormatter(formatter)
-
-logger.addHandler(stream_handler)
+from .utils.logging_config import logger
 
 # Функции для преобразования дат
 def parse_datetime(dt_str):
@@ -134,20 +123,11 @@ class KndViewSet(viewsets.ModelViewSet):
         
         content = parse_knm_data(self.get_knd().url_knd)
         update_data = {}
-
-        for key, value in content.items():
-            if key in self.FIELD_MAPPING:
-                if self.FIELD_MAPPING[key] == 'reg_data':
-                    value = parse_datetime(value)
-                elif self.FIELD_MAPPING[key] == 'start_data' or self.FIELD_MAPPING[key] == 'end_data':
-                    value = parse_date(value)
-                elif self.FIELD_MAPPING[key] == 'inspector':
-                    value = 'ivan'
-                    print(value)
-                db_var = getattr(self.get_knd(), self.FIELD_MAPPING[key])
-                if db_var != value:
-                    update_data[self.FIELD_MAPPING[key]] = value
-                    logger.debug(f"Поле {key} изменено с {db_var} на {value}")
+        knm_status = content['Статус КНМ']
+        db_status = getattr(self.get_knd(), self.FIELD_MAPPING['Статус КНМ'])
+        if db_status != knm_status:
+            update_data[self.FIELD_MAPPING['Статус КНМ']] = knm_status
+            logger.debug(f"Поле {self.FIELD_MAPPING['Статус КНМ']} изменено с {db_status} на {knm_status}")
 
         if update_data:
             serializer.save(inspektor=self.request.user, **update_data)

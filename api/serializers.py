@@ -22,3 +22,5 @@ class KndSerializer(serializers.ModelSerializer):
             'departure_time',
             'adress'
         ]
+        read_only_fields = ['id', 'created', 'url_knd', 'number_knd', 
+                          'reg_data', 'start_data', 'end_data', 'adress']

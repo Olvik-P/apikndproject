@@ -2,20 +2,7 @@ from playwright.sync_api import sync_playwright, TimeoutError
 from typing import Dict
 import logging
 import sys
-
-# Настройка логирования
-logger = logging.getLogger('__name__')
-logger.setLevel(logging.DEBUG)
-
-stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter(
-    '%(asctime)s [%(levelname)s] %(message)s', datefmt='%d-%m-%Y %H:%M:%S'
-)
-stream_handler.setFormatter(formatter)
-
-logger.addHandler(stream_handler)
+from .logging_config import logger
 
 
 class ParserError(Exception):
